@@ -1,36 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Broadcast Contacts</title>
 
-<!-- Google Font -->
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<title>Broadcast Contacts Dashboard</title>
 
-<!-- jQuery -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-<!-- Select2 -->
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
 <style>
 
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
+:root{
+--primary:#4f46e5;
+--secondary:#06b6d4;
+--glass:rgba(255,255,255,0.15);
+--border:rgba(255,255,255,0.25);
 }
+
+/* BODY */
 
 body{
-font-family:'Poppins',sans-serif;
-background:linear-gradient(135deg,#667eea,#764ba2);
+font-family:Poppins;
+margin:0;
+background:linear-gradient(135deg,#4f46e5,#06b6d4);
 min-height:100vh;
-padding:20px;
+padding:30px;
 }
 
-/* Header */
+/* HEADER */
+
 .header{
 text-align:center;
 color:white;
@@ -39,288 +43,301 @@ font-weight:600;
 margin-bottom:20px;
 }
 
-/* Main Container */
+/* CONTAINER */
+
 .container{
-max-width:1400px;
-margin:auto;
-background:rgba(255,255,255,0.95);
+background:var(--glass);
+backdrop-filter:blur(16px);
 border-radius:16px;
 padding:25px;
-box-shadow:0 10px 40px rgba(0,0,0,0.25);
-backdrop-filter:blur(10px);
-animation:fadeIn 0.5s ease;
+box-shadow:0 20px 50px rgba(0,0,0,0.25);
+border:1px solid var(--border);
 }
 
-@keyframes fadeIn{
-from{opacity:0;transform:translateY(10px);}
-to{opacity:1;transform:translateY(0);}
-}
+/* FILTERS */
 
-/* Filters */
 .filters{
 display:grid;
 grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
 gap:15px;
-background:#f4f7ff;
-padding:20px;
-border-radius:12px;
-margin-bottom:20px;
+margin-bottom:15px;
 }
 
-.filter-group label{
-font-weight:500;
-margin-bottom:5px;
-display:block;
+/* SELECT2 FIX */
+
+.select2-container--default .select2-selection--multiple{
+height:38px !important;
+min-height:38px !important;
+border-radius:10px !important;
+border:none !important;
+display:flex !important;
+align-items:center !important;
+padding:2px 8px !important;
 }
 
-.select2-container{
-width:100%!important;
-}
+/* DATE INPUT */
 
 input[type="date"]{
-padding:8px;
-border-radius:8px;
-border:1px solid #ccc;
+height:38px;
+padding:0 12px;
+border-radius:10px;
+border:none;
+font-family:Poppins;
 }
 
-/* Buttons */
-.button-group{
-margin-top:15px;
-display:flex;
-gap:10px;
-flex-wrap:wrap;
+/* BUTTONS */
+
+.buttons{
+margin-bottom:10px;
 }
 
 button{
+padding:8px 18px;
 border:none;
-padding:10px 20px;
-border-radius:8px;
+border-radius:10px;
 cursor:pointer;
 font-weight:500;
-transition:0.3s;
+margin-right:10px;
 }
 
 .btn-filter{
-background:linear-gradient(90deg,#007bff,#00c6ff);
+background:linear-gradient(90deg,var(--primary),var(--secondary));
 color:white;
-}
-
-.btn-filter:hover{
-transform:translateY(-2px);
-box-shadow:0 5px 20px rgba(0,123,255,0.4);
 }
 
 .btn-clear{
-background:#6c757d;
+background:#64748b;
 color:white;
 }
 
-.btn-clear:hover{
-background:#495057;
-}
+/* RECORD COUNT */
 
-/* Record count */
 .record-count{
-margin-top:15px;
-font-weight:600;
-color:#333;
+color:white;
+font-weight:500;
+margin-bottom:10px;
 }
 
-/* Table */
+/* TABLE WRAPPER */
+
+.table-wrapper{
+max-height:60vh;
+overflow-y:auto;
+overflow-x:auto;
+border-radius:12px;
+background:white;
+padding-right:4px;
+scrollbar-gutter:stable;
+}
+
+/* SCROLLBAR */
+
+.table-wrapper::-webkit-scrollbar{
+width:10px;
+}
+
+.table-wrapper::-webkit-scrollbar-track{
+background:rgba(255,255,255,0.25);
+border-radius:10px;
+}
+
+.table-wrapper::-webkit-scrollbar-thumb{
+background:linear-gradient(var(--primary),var(--secondary));
+border-radius:10px;
+border:2px solid rgba(255,255,255,0.3);
+}
+
+.table-wrapper::-webkit-scrollbar-thumb:hover{
+background:linear-gradient(var(--secondary),var(--primary));
+}
+
+/* TABLE */
+
 table{
 width:100%;
 border-collapse:collapse;
-margin-top:15px;
+table-layout:fixed;
 background:white;
-border-radius:12px;
-overflow:hidden;
 }
 
-thead{
-background:linear-gradient(90deg,#007bff,#00c6ff);
-color:white;
+/* HEADER */
+
+thead th{
 position:sticky;
 top:0;
+z-index:2;
+background:linear-gradient(90deg,var(--primary),var(--secondary));
+color:white;
+padding:10px;
+text-align:center;
 }
 
-th{
-padding:14px;
-text-align:left;
+/* BODY */
+
+tbody td{
+padding:8px;
+text-align:center;
+border-bottom:1px solid #e5e7eb;
+color:#111827;
 }
 
-td{
-padding:12px;
-border-bottom:1px solid #eee;
-}
-
-tbody tr{
-transition:0.2s;
-}
+/* HOVER */
 
 tbody tr:hover{
-background:#eef4ff;
-transform:scale(1.01);
+background:#eef2ff;
 }
 
-.highlight-duplicate{
-background:#fff3cd!important;
-}
+/* ERROR */
 
-/* Loading */
-.loading{
-text-align:center;
-padding:40px;
-font-size:18px;
-}
-
-/* Error */
 .error{
-background:#ffdddd;
+background:#fecaca;
 padding:10px;
 border-radius:8px;
-margin-top:10px;
+margin-bottom:10px;
+display:none;
 }
 
-/* No data */
-.no-data{
+.loading{
+color:white;
 text-align:center;
-padding:30px;
-color:#666;
+padding:20px;
 }
 
 </style>
+
 </head>
 
 <body>
 
-<div class="header">📇 Broadcast Contacts Dashboard</div>
+<div class="header">
+📇 Broadcast Contacts Dashboard
+</div>
 
 <div class="container">
 
 <div class="filters">
 
-<div class="filter-group">
-<label>Contact Name</label>
 <select id="contactNameFilter" multiple></select>
-</div>
 
-<div class="filter-group">
-<label>Heading</label>
 <select id="headingFilter" multiple></select>
-</div>
 
-<div class="filter-group">
-<label>Mobile Number</label>
 <select id="mobileNumberFilter" multiple></select>
-</div>
 
-<div class="filter-group">
-<label>Created Date</label>
 <input type="date" id="dateFilter">
-</div>
 
 </div>
 
-<div class="button-group">
+<div class="buttons">
+
 <button class="btn-filter" onclick="applyFilters()">Apply Filters</button>
+
 <button class="btn-clear" onclick="clearFilters()">Clear All</button>
+
 </div>
 
-<div id="errorMessage" class="error" style="display:none;"></div>
+<div id="errorMessage" class="error"></div>
 
 <div id="recordCount" class="record-count"></div>
 
-<div id="tableContainer">
-<div class="loading">Loading contacts...</div>
+<div id="tableContainer" class="loading">
+Loading contacts...
 </div>
 
 </div>
 
 <script>
 
-const API_BASE_URL="http://localhost:8000";
+const API_BASE_URL = window.location.origin;
 
 $(document).ready(function(){
-initializeFilters();
-loadFilterOptions();
-loadAllContacts();
+
+$('#contactNameFilter').select2({placeholder:"Contact Names"});
+$('#headingFilter').select2({placeholder:"Headings"});
+$('#mobileNumberFilter').select2({placeholder:"Mobile Numbers"});
+
+loadFilters();
+loadContacts();
+
 });
 
-function initializeFilters(){
+/* LOAD FILTER OPTIONS */
 
-$('#contactNameFilter').select2({
-placeholder:"Select Contact Names",
-allowClear:true
-});
-
-$('#headingFilter').select2({
-placeholder:"Select Headings",
-allowClear:true
-});
-
-$('#mobileNumberFilter').select2({
-placeholder:"Select Mobile Numbers",
-allowClear:true
-});
-
-}
-
-async function loadFilterOptions(){
+async function loadFilters(){
 
 try{
 
-const res=await fetch(`${API_BASE_URL}/filter-options`);
+const res=await fetch(API_BASE_URL+"/filter-options");
 const data=await res.json();
 
-data.contact_names.forEach(x=>{
-$('#contactNameFilter').append(new Option(x,x));
-});
+if(!data.contact_names) return;
 
-data.headings.forEach(x=>{
-$('#headingFilter').append(new Option(x,x));
-});
+data.contact_names.forEach(x=>
+$('#contactNameFilter').append(new Option(x,x))
+);
 
-data.mobile_numbers.forEach(x=>{
-$('#mobileNumberFilter').append(new Option(x,x));
-});
+data.headings.forEach(x=>
+$('#headingFilter').append(new Option(x,x))
+);
+
+data.mobile_numbers.forEach(x=>
+$('#mobileNumberFilter').append(new Option(x,x))
+);
 
 }catch(e){
+
 showError(e.message);
-}
 
 }
 
-async function loadAllContacts(){
+}
+
+/* LOAD CONTACTS */
+
+async function loadContacts(){
 
 try{
 
-const res=await fetch(`${API_BASE_URL}/contacts`);
+const res=await fetch(API_BASE_URL+"/contacts");
 const data=await res.json();
+
 displayContacts(data);
 
 }catch(e){
+
 showError(e.message);
+
 }
 
 }
+
+/* APPLY FILTER */
 
 async function applyFilters(){
 
 const params=new URLSearchParams();
 
-($('#contactNameFilter').val()||[]).forEach(x=>params.append("contact_names",x));
-($('#headingFilter').val()||[]).forEach(x=>params.append("headings",x));
-($('#mobileNumberFilter').val()||[]).forEach(x=>params.append("mobile_numbers",x));
+($('#contactNameFilter').val()||[])
+.forEach(x=>params.append("contact_names",x));
+
+($('#headingFilter').val()||[])
+.forEach(x=>params.append("headings",x));
+
+($('#mobileNumberFilter').val()||[])
+.forEach(x=>params.append("mobile_numbers",x));
 
 const date=$("#dateFilter").val();
-if(date)params.append("created_date",date);
 
-const res=await fetch(`${API_BASE_URL}/contacts?${params}`);
+if(date)
+params.append("created_date",date);
+
+const res=await fetch(API_BASE_URL+"/contacts?"+params);
 const data=await res.json();
 
 displayContacts(data);
 
 }
+
+/* CLEAR FILTER */
 
 function clearFilters(){
 
@@ -329,44 +346,54 @@ $('#headingFilter').val(null).trigger('change');
 $('#mobileNumberFilter').val(null).trigger('change');
 $('#dateFilter').val('');
 
-loadAllContacts();
+loadContacts();
 
 }
 
-function displayContacts(contacts){
+/* DISPLAY CONTACTS */
 
-document.getElementById("recordCount").innerText=`Total Records: ${contacts.length}`;
+function displayContacts(data){
 
-if(!contacts.length){
+document.getElementById("recordCount").innerText=
+"Total Records: "+data.length;
 
-document.getElementById("tableContainer").innerHTML='<div class="no-data">No records found</div>';
+if(!data.length){
+
+document.getElementById("tableContainer").innerHTML=
+"No records found";
+
 return;
 
 }
 
-let html=`<table>
+let html=`<div class="table-wrapper"><table>`;
+
+html+=`
 <thead>
 <tr>
 <th>Name</th>
 <th>Heading</th>
 <th>Mobile</th>
-<th>Created</th>
+<th>Date</th>
 </tr>
-</thead><tbody>`;
+</thead>
+<tbody>`;
 
-let count={};
+data.forEach(x=>{
 
-contacts.forEach(x=>{
-count[x.ContactName]=(count[x.ContactName]||0)+1;
-});
+let date="";
 
-contacts.forEach(x=>{
+if(x.CreatedAt){
 
-let date=new Date(x.CreatedAt).toLocaleString("en-GB");
+const d=new Date(x.CreatedAt);
 
-let highlight=count[x.ContactName]>1?'class="highlight-duplicate"':"";
+if(!isNaN(d))
+date=d.toLocaleString("en-GB");
 
-html+=`<tr ${highlight}>
+}
+
+html+=`
+<tr>
 <td>${x.ContactName||""}</td>
 <td>${x.Heading||""}</td>
 <td>${x.MobilePhone||""}</td>
@@ -375,15 +402,18 @@ html+=`<tr ${highlight}>
 
 });
 
-html+="</tbody></table>";
+html+=`</tbody></table></div>`;
 
 document.getElementById("tableContainer").innerHTML=html;
 
 }
 
+/* ERROR */
+
 function showError(msg){
 
 const e=document.getElementById("errorMessage");
+
 e.innerText=msg;
 e.style.display="block";
 
@@ -392,4 +422,5 @@ e.style.display="block";
 </script>
 
 </body>
+
 </html>

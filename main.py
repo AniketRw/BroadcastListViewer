@@ -76,9 +76,15 @@ def get_filter_options():
             "mobile_numbers": mobile_numbers
         }
     
+    # except Exception as e:
+    #     return {"error": str(e)}, 500
     except Exception as e:
-        return {"error": str(e)}, 500
-
+        print("Filter options error:", str(e))
+    return {
+        "contact_names": [],
+        "headings": [],
+        "mobile_numbers": []
+    }
 
 @app.get("/contacts")
 # def get_contacts(
@@ -131,6 +137,95 @@ def get_filter_options():
 #         columns = [column[0] for column in cursor.description]
 #         results = []
 @app.get("/contacts")
+# def get_contacts(
+#     contact_names: Optional[List[str]] = Query(None),
+#     headings: Optional[List[str]] = Query(None),
+#     mobile_numbers: Optional[List[str]] = Query(None),
+#     created_date: Optional[date] = Query(None)
+# ):
+#     try:
+#         conn = get_db_connection()
+#         cursor = conn.cursor()
+
+#         query = "SELECT ContactName, Heading, MobilePhone, CreatedAt FROM vwFinalContacts WHERE 1=1"
+#         params = []
+
+#         if contact_names:
+#             placeholders = ','.join(['?' for _ in contact_names])
+#             query += f" AND ContactName IN ({placeholders})"
+#             params.extend(contact_names)
+
+#         if headings:
+#             placeholders = ','.join(['?' for _ in headings])
+#             query += f" AND Heading IN ({placeholders})"
+#             params.extend(headings)
+
+#         if mobile_numbers:
+#             placeholders = ','.join(['?' for _ in mobile_numbers])
+#             query += f" AND MobilePhone IN ({placeholders})"
+#             params.extend(mobile_numbers)
+
+#         if created_date:
+#             query += " AND CAST(CreatedAt AS DATE) = ?"
+#             params.append(created_date)
+
+#         query += " ORDER BY Heading, ContactName"
+
+#         cursor.execute(query, params)
+
+#         results = []
+
+#         for row in cursor.fetchall():
+#             results.append({
+#                 "ContactName": row.ContactName,
+#                 "Heading": row.Heading,
+#                 "MobilePhone": row.MobilePhone,
+#                 "CreatedAt": row.CreatedAt.isoformat() if row.CreatedAt else None
+#             })
+
+#         cursor.close()
+#         conn.close()
+
+#         return results
+
+#     except Exception as e:
+#         print("Contacts error:", str(e))
+#         return []
+
+        
+#         # for row in cursor.fetchall():
+#         #     row_dict = {}
+#         #     for i, column in enumerate(columns):
+#         #         value = row[i]
+#         #         # Convert datetime to ISO format string for JSON serialization
+#         #         if isinstance(value, datetime):
+#         #             value = value.isoformat()
+#         #         row_dict[column] = value
+#         #     results.append(row_dict)
+#         for row in cursor.fetchall():
+#             row_dict = {
+#             "ContactName": row.ContactName,
+#             "Heading": row.Heading,
+#             "MobilePhone": row.MobilePhone,
+#             "CreatedAt": row.CreatedAt.isoformat() if row.CreatedAt else None
+#         }
+#         results.append(row_dict)
+        
+#         cursor.close()
+#         conn.close()
+        
+#         return results
+    
+#     # except Exception as e:
+#     #     return {"error": str(e)}, 500
+#     except Exception as e:
+#         print("Filter options error:", str(e))
+#     return {
+#         "contact_names": [],
+#         "headings": [],
+#         "mobile_numbers": []
+#     }
+@app.get("/contacts")
 def get_contacts(
     contact_names: Optional[List[str]] = Query(None),
     headings: Optional[List[str]] = Query(None),
@@ -170,11 +265,17 @@ def get_contacts(
         results = []
 
         for row in cursor.fetchall():
+
+            created_at = None
+
+            if row.CreatedAt:
+                created_at = row.CreatedAt.strftime("%Y-%m-%dT%H:%M:%S")
+
             results.append({
-                "ContactName": row.ContactName,
-                "Heading": row.Heading,
-                "MobilePhone": row.MobilePhone,
-                "CreatedAt": row.CreatedAt.isoformat() if row.CreatedAt else None
+                "ContactName": str(row.ContactName) if row.ContactName else "",
+                "Heading": str(row.Heading) if row.Heading else "",
+                "MobilePhone": str(row.MobilePhone) if row.MobilePhone else "",
+                "CreatedAt": created_at
             })
 
         cursor.close()
@@ -186,41 +287,6 @@ def get_contacts(
         print("Contacts error:", str(e))
         return []
 
-        
-        # for row in cursor.fetchall():
-        #     row_dict = {}
-        #     for i, column in enumerate(columns):
-        #         value = row[i]
-        #         # Convert datetime to ISO format string for JSON serialization
-        #         if isinstance(value, datetime):
-        #             value = value.isoformat()
-        #         row_dict[column] = value
-        #     results.append(row_dict)
-        for row in cursor.fetchall():
-            row_dict = {
-            "ContactName": row.ContactName,
-            "Heading": row.Heading,
-            "MobilePhone": row.MobilePhone,
-            "CreatedAt": row.CreatedAt.isoformat() if row.CreatedAt else None
-        }
-        results.append(row_dict)
-        
-        cursor.close()
-        conn.close()
-        
-        return results
-    
-    # except Exception as e:
-    #     return {"error": str(e)}, 500
-    except Exception as e:
-        print("Filter options error:", str(e))
-    return {
-        "contact_names": [],
-        "headings": [],
-        "mobile_numbers": []
-    }
-
-
 # if __name__ == "__main__":
 #     import uvicorn
-#     uvicorn.run(app, host="0.0.0.0", port=8000)
+#     uvicorn.run(app, host="0.0.0.0", port=5000)
