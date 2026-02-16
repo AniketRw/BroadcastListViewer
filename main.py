@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from typing import List, Optional
 import pyodbc
 from datetime import datetime, date
+from fastapi.responses import FileResponse
 
 app = FastAPI(title="Broadcast Contacts API")
 
@@ -38,10 +39,12 @@ def get_db_connection():
     return pyodbc.connect(conn_string)
 
 @app.get("/")
+# def read_root():
+#     """Health check endpoint"""
+#     return {"status": "API is running", "message": "Broadcast Contacts API"}
+@app.get("/")
 def read_root():
-    """Health check endpoint"""
-    return {"status": "API is running", "message": "Broadcast Contacts API"}
-
+    return FileResponse("index.html")
 
 @app.get("/filter-options")
 def get_filter_options():
