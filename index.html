@@ -1,5 +1,4 @@
-﻿<!-- GIT TEST -->
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 
@@ -8,7 +7,7 @@
 
 <title>Broadcast Contacts Dashboard</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
@@ -20,188 +19,262 @@
 :root{
 --primary:#4f46e5;
 --secondary:#06b6d4;
---glass:rgba(255,255,255,0.15);
---border:rgba(255,255,255,0.25);
+--white:#ffffff;
+--text:#111827;
 }
 
 /* BODY */
 
 body{
+
 font-family:Poppins;
 margin:0;
+
 background:linear-gradient(135deg,#4f46e5,#06b6d4);
+
 min-height:100vh;
-padding:30px;
+padding:20px;
+
 }
 
 /* HEADER */
 
 .header{
+
 text-align:center;
 color:white;
 font-size:32px;
 font-weight:600;
 margin-bottom:20px;
+
 }
 
 /* CONTAINER */
 
 .container{
-background:var(--glass);
-backdrop-filter:blur(16px);
+
+background:#ffffff;
+
 border-radius:16px;
-padding:25px;
-box-shadow:0 20px 50px rgba(0,0,0,0.25);
-border:1px solid var(--border);
+
+padding:20px;
+
+box-shadow:0 10px 30px rgba(0,0,0,0.2);
+
+max-width:1400px;
+margin:auto;
+
 }
 
-/* FILTERS */
+/* FILTER GRID */
 
 .filters{
+
 display:grid;
+
 grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-gap:15px;
+
+gap:12px;
+
 margin-bottom:15px;
+
+}
+
+/* INPUTS */
+
+select,
+input[type="date"]{
+
+width:100%;
+
+padding:10px;
+
+border-radius:10px;
+
+border:1px solid #ddd;
+
+font-family:Poppins;
+
 }
 
 /* SELECT2 FIX */
 
-.select2-container--default .select2-selection--multiple{
-height:38px !important;
-min-height:38px !important;
+.select2-container .select2-selection--multiple{
+
+min-height:42px;
+
 border-radius:10px !important;
-border:none !important;
-display:flex !important;
-align-items:center !important;
-padding:2px 8px !important;
-}
 
-/* DATE INPUT */
-
-input[type="date"]{
-height:38px;
-padding:0 12px;
-border-radius:10px;
-border:none;
-font-family:Poppins;
 }
 
 /* BUTTONS */
 
 .buttons{
+
 margin-bottom:10px;
+
 }
 
 button{
-padding:8px 18px;
+
+padding:10px 18px;
+
 border:none;
+
 border-radius:10px;
+
 cursor:pointer;
+
 font-weight:500;
+
 margin-right:10px;
+
+transition:0.2s;
+
 }
 
 .btn-filter{
+
 background:linear-gradient(90deg,var(--primary),var(--secondary));
 color:white;
+
 }
 
 .btn-clear{
+
 background:#64748b;
 color:white;
+
 }
 
 /* RECORD COUNT */
 
 .record-count{
-color:white;
-font-weight:500;
+
+font-weight:600;
 margin-bottom:10px;
+
 }
 
 /* TABLE WRAPPER */
 
 .table-wrapper{
+
 max-height:60vh;
+
 overflow-y:auto;
-overflow-x:auto;
+
 border-radius:12px;
-background:white;
-padding-right:4px;
-scrollbar-gutter:stable;
-}
 
-/* SCROLLBAR */
+border:1px solid #ddd;
 
-.table-wrapper::-webkit-scrollbar{
-width:10px;
-}
-
-.table-wrapper::-webkit-scrollbar-track{
-background:rgba(255,255,255,0.25);
-border-radius:10px;
-}
-
-.table-wrapper::-webkit-scrollbar-thumb{
-background:linear-gradient(var(--primary),var(--secondary));
-border-radius:10px;
-border:2px solid rgba(255,255,255,0.3);
-}
-
-.table-wrapper::-webkit-scrollbar-thumb:hover{
-background:linear-gradient(var(--secondary),var(--primary));
 }
 
 /* TABLE */
 
 table{
+
 width:100%;
+
 border-collapse:collapse;
-table-layout:fixed;
+
 background:white;
+
 }
 
-/* HEADER */
+/* HEADINGS */
 
-thead th{
+thead{
+
+background:linear-gradient(90deg,var(--primary),var(--secondary));
+
+color:white;
+
 position:sticky;
 top:0;
-z-index:2;
-background:linear-gradient(90deg,var(--primary),var(--secondary));
-color:white;
-padding:10px;
-text-align:center;
+
 }
 
-/* BODY */
+th{
 
-tbody td{
-padding:8px;
+padding:12px;
+
 text-align:center;
-border-bottom:1px solid #e5e7eb;
-color:#111827;
+
+font-weight:600;
+
 }
 
-/* HOVER */
+/* DATA CELLS */
+
+td{
+
+padding:12px;
+
+text-align:center;
+
+border-bottom:1px solid #eee;
+
+color:var(--text);
+
+}
+
+/* ROW HOVER */
 
 tbody tr:hover{
-background:#eef2ff;
+
+background:#f1f5f9;
+
 }
 
 /* ERROR */
 
 .error{
+
 background:#fecaca;
+
 padding:10px;
+
 border-radius:8px;
+
 margin-bottom:10px;
+
 display:none;
+
 }
 
+/* LOADING */
+
 .loading{
-color:white;
+
+padding:30px;
 text-align:center;
-padding:20px;
+
+}
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+.header{
+
+font-size:24px;
+
+}
+
+.container{
+
+padding:15px;
+
+}
+
+th, td{
+
+font-size:13px;
+padding:10px;
+
+}
+
 }
 
 </style>
@@ -250,16 +323,38 @@ Loading contacts...
 
 const API_BASE_URL = window.location.origin;
 
+/* INIT */
+
 $(document).ready(function(){
 
-$('#contactNameFilter').select2({placeholder:"Contact Names"});
-$('#headingFilter').select2({placeholder:"Headings"});
-$('#mobileNumberFilter').select2({placeholder:"Mobile Numbers"});
+initSelect();
 
 loadFilters();
+
 loadContacts();
 
 });
+
+/* SELECT INIT */
+
+function initSelect(){
+
+$('#contactNameFilter').select2({
+placeholder:"Contact Names",
+width:'100%'
+});
+
+$('#headingFilter').select2({
+placeholder:"Headings",
+width:'100%'
+});
+
+$('#mobileNumberFilter').select2({
+placeholder:"Mobile Numbers",
+width:'100%'
+});
+
+}
 
 /* LOAD FILTER OPTIONS */
 
@@ -268,6 +363,7 @@ async function loadFilters(){
 try{
 
 const res=await fetch(API_BASE_URL+"/filter-options");
+
 const data=await res.json();
 
 if(!data.contact_names) return;
@@ -286,7 +382,7 @@ $('#mobileNumberFilter').append(new Option(x,x))
 
 }catch(e){
 
-showError(e.message);
+showError("Failed to load filters");
 
 }
 
@@ -299,13 +395,14 @@ async function loadContacts(){
 try{
 
 const res=await fetch(API_BASE_URL+"/contacts");
+
 const data=await res.json();
 
 displayContacts(data);
 
 }catch(e){
 
-showError(e.message);
+showError("Failed to fetch");
 
 }
 
@@ -332,26 +429,30 @@ if(date)
 params.append("created_date",date);
 
 const res=await fetch(API_BASE_URL+"/contacts?"+params);
+
 const data=await res.json();
 
 displayContacts(data);
 
 }
 
-/* CLEAR FILTER */
+/* CLEAR */
 
 function clearFilters(){
 
 $('#contactNameFilter').val(null).trigger('change');
+
 $('#headingFilter').val(null).trigger('change');
+
 $('#mobileNumberFilter').val(null).trigger('change');
+
 $('#dateFilter').val('');
 
 loadContacts();
 
 }
 
-/* DISPLAY CONTACTS */
+/* DISPLAY */
 
 function displayContacts(data){
 
@@ -367,18 +468,16 @@ return;
 
 }
 
-let html=`<div class="table-wrapper"><table>`;
+let html='<div class="table-wrapper"><table>';
 
-html+=`
-<thead>
-<tr>
-<th>Name</th>
-<th>Heading</th>
-<th>Mobile</th>
-<th>Date</th>
-</tr>
-</thead>
-<tbody>`;
+html+='<thead><tr>';
+
+html+='<th>Name</th>';
+html+='<th>Heading</th>';
+html+='<th>Mobile</th>';
+html+='<th>Date</th>';
+
+html+='</tr></thead><tbody>';
 
 data.forEach(x=>{
 
@@ -403,7 +502,7 @@ html+=`
 
 });
 
-html+=`</tbody></table></div>`;
+html+='</tbody></table></div>';
 
 document.getElementById("tableContainer").innerHTML=html;
 
@@ -416,6 +515,7 @@ function showError(msg){
 const e=document.getElementById("errorMessage");
 
 e.innerText=msg;
+
 e.style.display="block";
 
 }
@@ -423,5 +523,4 @@ e.style.display="block";
 </script>
 
 </body>
-
 </html>
